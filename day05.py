@@ -16,19 +16,12 @@ def solve(input):
                 part1 += 1
                 break
 
-    # sort to largest ranges first -> prevents range from splitting other range in half
-    keys.sort(key=lambda pair: pair[1] - pair[0], reverse=True)
+    keys.sort(key=lambda pair: pair[0])
+    min = 0
 
-    for i, (a, b) in enumerate(keys):
-        part2 += max(b - a + 1, 0)  # some ranges may have been flipped below
-
-        for j, (c, d) in enumerate(keys[i + 1 :]):
-            if a <= c <= b:
-                c = b + 1
-            if a <= d <= b:
-                d = a - 1
-
-            keys[i + 1 + j] = (c, d)
+    for a, b in keys:
+        part2 += max(b - max(min, a) + 1, 0)
+        min = max(min, b + 1)
 
     return part1, part2
 
