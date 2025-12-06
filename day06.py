@@ -1,50 +1,28 @@
+from itertools import groupby
 from math import prod
 from sys import stdin
 
 
-def pad(str, c):
-    return str + (c - len(str)) * " "
-
-
 def solve(input):
-    # make sure all lines are same length for part2
-    c = max([len(row) for row in input])
-    input = [pad(row, c) for row in input]
-
-    part1, part2 = 0, 0
-
     # part 1
     ops = input[-1].split()
     rows = [list(map(int, row.split())) for row in input[:-1]]
+    cols = [[row[i] for row in rows] for i in range(len(ops))]
 
-    for i, op in enumerate(ops):
-        col = [row[i] for row in rows]
-        part1 += sum(col) if op == "+" else prod(col)
+    # part2
+    transposed = [
+        int("0" + "".join([input[i][j] for i, _ in enumerate(input[:-1])]).strip())
+        for j, _ in enumerate(input[0])
+    ]
 
-    # part 2
-    tmp = 0
-    mode = ""
+    chunks = [
+        list(group) for k, group in groupby(transposed, key=lambda x: x != 0) if k
+    ]
 
-    for i, c in enumerate(input[-1]):
-        if c != " ":
-            mode = c
-            part2 += tmp
-            tmp = 1 if c == "*" else 0
+    def calculate(cols):
+        return sum([sum(col) if op == "+" else prod(col) for col, op in zip(cols, ops)])
 
-        val = 0
-
-        for row in input[:-1]:
-            if row[i] == " ":
-                if val == 0:
-                    continue
-                break
-            val = 10 * val + int(row[i])
-
-        if val != 0:
-            tmp = (tmp * val) if mode == "*" else (tmp + val)
-
-    part2 += tmp
-    return part1, part2
+    return calculate(cols), calculate(chunks)
 
 
-print(solve([line.rstrip() for line in stdin]))
+print(solve([line.rstrip("\r\n") for line in stdin]))
