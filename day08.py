@@ -1,4 +1,6 @@
-import heapq
+from heapq import heapify, nlargest, nsmallest
+from itertools import combinations
+from math import hypot, prod
 from sys import stdin
 
 
@@ -7,16 +9,14 @@ def solve(input):
 
     def dist(a, b):
         (x1, y1, z1), (x2, y2, z2) = a, b
-        return (x1 - x2) ** 2 + (y1 - y2) ** 2 + (z1 - z2) ** 2
+        return hypot(x1 - x2, y1 - y2, z1 - z2)
 
     connections = [
-        (dist(points[i], points[j]), i, j)
-        for i in range(len(points))
-        for j in range(i + 1, len(points))
+        (dist(pi, pj), i, j) for (i, pi), (j, pj) in combinations(enumerate(points), 2)
     ]
 
-    heapq.heapify(connections)
-    connections = heapq.nsmallest(10000, connections)  # should be enough for 999 unique
+    heapify(connections)
+    connections = nsmallest(10000, connections)  # should be enough for 999 unique
 
     circuits = list(range(len(points)))  # each point has its own circuit ID
     merged, part1, part2 = 0, 0, 0
@@ -24,8 +24,8 @@ def solve(input):
     for i, (_, a, b) in enumerate(connections):
         if i == 1000:
             sizes = [circuits.count(i) for i in range(len(points))]
-            sizes.sort(reverse=True)
-            part1 = sizes[0] * sizes[1] * sizes[2]
+            heapify(sizes)
+            part1 = prod(nlargest(3, sizes))
 
         if circuits[a] == circuits[b]:
             continue
@@ -39,4 +39,4 @@ def solve(input):
     return part1, part2
 
 
-print(solve([line.rstrip("\r\n") for line in stdin]))
+print(solve([line.rstrip() for line in stdin]))
