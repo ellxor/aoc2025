@@ -1,3 +1,4 @@
+import heapq
 from sys import stdin
 
 
@@ -9,19 +10,21 @@ def solve(input):
         return (x1 - x2) ** 2 + (y1 - y2) ** 2 + (z1 - z2) ** 2
 
     connections = [
-        (i, j, dist(points[i], points[j]))
+        (dist(points[i], points[j]), i, j)
         for i in range(len(points))
         for j in range(i + 1, len(points))
     ]
 
-    connections.sort(key=lambda c: c[2])  # this sorts far too many items...
+    heapq.heapify(connections)
+    connections = heapq.nsmallest(10000, connections)  # should be enough for 999 unique
+
     circuits = list(range(len(points)))  # each point has its own circuit ID
     merged, part1, part2 = 0, 0, 0
 
-    for i, (a, b, _) in enumerate(connections):
+    for i, (_, a, b) in enumerate(connections):
         if i == 1000:
             sizes = [circuits.count(i) for i in range(len(points))]
-            sizes.sort(reverse=True)  # as does this...
+            sizes.sort(reverse=True)
             part1 = sizes[0] * sizes[1] * sizes[2]
 
         if circuits[a] == circuits[b]:
