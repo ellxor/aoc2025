@@ -1,14 +1,14 @@
 Reasonably efficient (for Python) solutions to Advent of Code 2025.
 
-Day  1:  1.1 ms
-Day  2:  0.4 ms
-Day  3:  3.2 ms
-Day  4:   52 ms
-Day  5:  3.6 ms
-Day  6:  2.4 ms
-Day  7:  3.5 ms
-Day  8:  314 ms
-Day  9:  -
-Day 10:  -
-Day 11:  -
-Day 12:  -
+Day  1:   1.1 ms
+Day  2:   0.4 ms
+Day  3:   3.2 ms
+Day  4:    52 ms
+Day  5:   3.6 ms
+Day  6:   2.4 ms
+Day  7:   3.5 ms
+Day  8:   314 ms
+Day  9:  2502 ms
+Day 10:   -
+Day 11:   -
+Day 12:   -
