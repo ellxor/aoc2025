@@ -38,7 +38,6 @@ def parse(line):
 
 def solve(input):
     nodes = {node: children for (node, children) in map(parse, input)}
-    part1, part2 = 0, 0
 
     part1 = count_paths("you", nodes, {})
     part2 = count_paths(
