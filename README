@@ -1,4 +1,5 @@
-Reasonably efficient (for Python) solutions to Advent of Code 2025.
+Reasonably efficient (for Python) solutions to Advent
+of Code 2025 with no external dependencies.
 
 Day  1:   1.1 ms
 Day  2:   0.4 ms
